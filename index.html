@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitación 18 Años</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--azul:#0A2A6B;--azul2:#103C91;--oro:#F5B800;--negro:#05070d;--blanco:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--negro) radial-gradient(ellipse 120% 100% at 50% 0%,#0e3a8f 0,var(--azul) 35%,#07153a 65%,var(--negro) 100%) no-repeat top/100% 100vh;color:var(--blanco);font-family:'Cormorant Garamond',serif;font-size:19px;text-align:center;overflow-x:hidden}
+canvas#particulas{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;max-width:480px;margin:0 auto}
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 28px;position:relative}
+/* Franja Boca */
+.franja{width:100%;height:46px;background:linear-gradient(var(--azul2) 0 33%,var(--oro) 33% 66%,var(--azul2) 66%);position:absolute;left:0;top:50%;transform:translateY(-50%);opacity:.18}
+h2,.titulo{font-family:'Oswald',sans-serif;letter-spacing:3px;text-transform:uppercase;font-weight:400;font-size:20px}
+.cursiva{font-style:italic;font-size:28px;color:var(--oro)}
+.oro{color:var(--oro)}
+/* Hero */
+.hero{background:none;overflow:hidden}
+.marco-hero{position:absolute;inset:60px 26px;border:1px solid rgba(245,184,0,.65);pointer-events:none;animation:aparecer 2s ease both}
+.marco-hero .c{position:absolute;left:50%;width:10px;height:10px;margin-left:-5px;border:1px solid var(--oro);border-radius:50%;background:var(--azul)}
+.marco-hero .t{top:-6px}.marco-hero .b{bottom:-6px}
+.cinta{position:absolute;width:150px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));pointer-events:none}
+.c1{top:30px;left:-14px;animation:flota 6s ease-in-out infinite}
+.c2{bottom:30px;right:30px;width:130px;transform:rotate(-12deg) scaleX(-1);animation:flota2 7s ease-in-out infinite}
+#confeti{position:absolute;inset:0;pointer-events:none}
+.cf{position:absolute;background:var(--oro);opacity:0;animation:titilar var(--t) ease-in-out infinite alternate,deriva var(--d) linear infinite alternate}
+.cf.tri{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.cf.pt{border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#F5B800 55%,#9a6a00)}
+@keyframes titilar{0%{opacity:0}100%{opacity:.85}}
+@keyframes deriva{to{transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+@keyframes flota{50%{transform:translateY(14px) rotate(4deg)}}
+@keyframes flota2{50%{transform:translateY(-14px) rotate(-18deg) scaleX(-1)}}
+@keyframes aparecer{from{opacity:0;transform:scale(.96)}}
+.hero .gran18{position:absolute;top:6%;left:50%;transform:translateX(-50%);font-family:'Oswald',sans-serif;font-size:min(80vw,380px);line-height:1;font-weight:600;
+  background:linear-gradient(180deg,rgba(245,184,0,.6) 0%,rgba(245,184,0,.3) 45%,rgba(30,90,220,.1) 85%,transparent 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 20px rgba(245,184,0,.12));animation:latido 5s ease-in-out infinite;pointer-events:none}
+.nombre{font-family:'Great Vibes',cursive;font-size:84px;color:var(--blanco);text-shadow:0 0 14px rgba(245,184,0,.45),0 0 30px rgba(16,60,145,.7);position:relative;z-index:2;line-height:1}
+.hero p.play{margin-top:40px;font-size:17px;position:relative;z-index:2}
+.player{display:flex;align-items:center;gap:22px;margin-top:14px;position:relative;z-index:2}
+.player button{background:none;border:none;color:var(--oro);cursor:pointer;font-size:20px;transition:transform .25s}
+.player button:hover{transform:scale(1.2)}
+#btnPlay{width:54px;height:54px;border-radius:50%;background:var(--oro);color:var(--azul);font-size:22px;box-shadow:0 0 0 0 rgba(245,184,0,.6);animation:pulso 2s infinite}
+.barra{width:70%;height:3px;background:#444;margin-top:18px;border-radius:2px;position:relative;z-index:2}
+.barra i{display:block;height:100%;width:0;background:var(--oro);border-radius:2px}
+.scroll{position:absolute;bottom:22px;font-size:26px;color:var(--oro);animation:rebote 1.6s infinite}
+/* Cuenta regresiva */
+.fecha{font-family:'Oswald',sans-serif;font-size:44px;letter-spacing:6px;margin:18px 0 30px}
+.cuenta{display:flex;gap:14px;justify-content:center}
+.cuenta div{border:1px solid var(--oro);border-radius:10px;padding:12px 10px;min-width:64px;background:rgba(16,60,145,.35)}
+.cuenta b{display:block;font-family:'Oswald',sans-serif;font-size:30px;font-weight:600}
+.cuenta small{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--oro)}
+.marco{border:1px solid var(--oro);border-radius:14px;padding:34px 24px;background:rgba(10,42,107,.25);width:100%}
+.icono{width:64px;height:64px;stroke:var(--oro);fill:none;stroke-width:1.5;margin-bottom:14px}
+.dato{font-size:30px;margin:6px 0}
+.btn{display:inline-block;margin-top:18px;background:var(--oro);color:var(--azul);font-family:'Oswald',sans-serif;letter-spacing:2px;font-size:14px;text-transform:uppercase;padding:12px 26px;border-radius:30px;border:none;cursor:pointer;text-decoration:none;transition:.3s}
+.btn:hover{background:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(245,184,0,.35)}
+iframe{width:100%;height:200px;border:1px solid var(--oro);border-radius:12px;margin-top:20px;filter:grayscale(.3) contrast(1.05)}
+/* Formulario */
+form{width:100%;text-align:left;margin-top:20px}
+label{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:2px;color:var(--oro);text-transform:uppercase}
+input[type=text],input[type=number],textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid #3a4a78;border-radius:8px;color:#fff;padding:12px;margin:6px 0 18px;font:inherit;transition:.3s}
+input:focus,textarea:focus{outline:none;border-color:var(--oro);box-shadow:0 0 12px rgba(245,184,0,.35)}
+.opciones{display:flex;gap:12px;margin:8px 0 18px}
+.opciones label{flex:1;border:1px solid #3a4a78;border-radius:8px;padding:12px;text-align:center;cursor:pointer;color:#fff;transition:.3s}
+.opciones input{display:none}
+.opciones input:checked+span{color:var(--oro)}
+.opciones label:has(input:checked){border-color:var(--oro);background:rgba(245,184,0,.15)}
+#msg{margin-top:14px;text-align:center;min-height:24px}
+.hp{position:absolute;left:-9999px}
+/* Animaciones scroll */
+.rev{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s ease}
+.rev.in{opacity:1;transform:none}
+.d1{transition-delay:.15s}.d2{transition-delay:.3s}.d3{transition-delay:.45s}
+.disco{width:110px;height:110px;margin:0 auto 18px;border-radius:50%;position:relative;animation:gira 6s linear infinite;box-shadow:0 0 25px rgba(245,184,0,.25);
+  background:repeating-radial-gradient(circle,#0b0d14 0 2px,#161a26 3px 4px)}
+.disco::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 20%,rgba(255,255,255,.14) 25%,transparent 30% 70%,rgba(255,255,255,.14) 75%,transparent 80%)}
+.disco::after{content:"";position:absolute;inset:36px;border-radius:50%;background:radial-gradient(circle,#05070d 0 6px,var(--oro) 7px);border:2px solid var(--azul2)}
+.btn2{display:inline-block;margin:0 0 18px;color:var(--oro);border:1px solid var(--oro);border-radius:30px;padding:9px 18px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-decoration:none;text-transform:uppercase;transition:.3s}
+.btn2:hover{background:var(--oro);color:var(--azul)}
+.btn2[hidden]{display:none}
+#preview{margin:-6px 0 16px}
+#preview iframe{height:152px;margin:0;border:0;border-radius:12px;filter:none}
+#msgSong{margin-top:14px;text-align:center;min-height:24px}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes latido{50%{transform:translateX(-50%) scale(1.05)}}
+@keyframes pulso{70%{box-shadow:0 0 0 16px rgba(245,184,0,0)}100%{box-shadow:0 0 0 0 rgba(245,184,0,0)}}
+@keyframes rebote{50%{transform:translateY(8px)}}
+footer{padding:30px;font-size:14px;color:#888}
+</style>
+</head>
+<body>
+<canvas id="particulas"></canvas>
+
+<main>
+
+<!-- PORTADA -->
+<section class="hero">
+  <svg class="cinta c1" viewBox="0 0 130 90"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a8"/><stop offset=".5" stop-color="#F5B800"/><stop offset="1" stop-color="#8a5f00"/></linearGradient></defs><path fill="url(#gd)" d="M0 18C40-6 62 62 112 38L126 56C70 84 40 24 8 46Z"/></svg>
+  <svg class="cinta c2" viewBox="0 0 130 90"><path fill="url(#gd)" d="M0 18C40-6 62 62 112 38L126 56C70 84 40 24 8 46Z"/></svg>
+  <div id="confeti"></div>
+  <div class="gran18">18</div>
+  <div class="nombre rev" id="tNombre">Nombre</div>
+  <div class="scroll">⌄</div>
+</section>
+
+<!-- CUENTA REGRESIVA -->
+<section>
+  <h2 class="rev">¡Ya llega<br>el gran día!</h2>
+  <div class="fecha rev d1" id="tFecha">00 . 00 . 00</div>
+  <p class="rev d2" style="margin-bottom:14px;letter-spacing:3px">FALTAN...</p>
+  <div class="cuenta rev d3">
+    <div><b id="cd">00</b><small>Días</small></div>
+    <div><b id="ch">00</b><small>Hs</small></div>
+    <div><b id="cm">00</b><small>Min</small></div>
+    <div><b id="cs">00</b><small>Seg</small></div>
+  </div>
+</section>
+
+<!-- UBICACIÓN -->
+<section>
+  <div class="marco rev">
+    <svg class="icono" viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <h2>Fiesta</h2>
+    <div class="dato cursiva" id="tLugar">Nombre del salón</div>
+    <p id="tDireccion">Dirección</p>
+    <p class="dato" id="tHora">00:00 hs</p>
+    <a class="btn" id="btnMapa" href="#" target="_blank">Ver ubicación</a>
+    <iframe id="mapa" loading="lazy" title="Mapa"></iframe>
+  </div>
+</section>
+
+<!-- DRESS CODE -->
+<section>
+  <div class="rev">
+    <svg class="icono" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z M2 9h20 M9 3l3 6 3-6 M12 21L9 9 M12 21l3-12"/></svg>
+    <h2>Dress code</h2>
+    <div class="cursiva" id="tDress" style="margin-top:10px">Elegante Sport</div>
+  </div>
+</section>
+
+<!-- CONFIRMACIÓN -->
+<section>
+  <div class="rev">
+    <svg class="icono" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="1"/><path d="M2 6l10 7 10-7"/></svg>
+    <h2>Confirmación de</h2>
+    <div class="cursiva">Asistencia</div>
+    <p style="margin-top:12px">No te olvides de confirmar tu asistencia lo antes posible</p>
+    <p style="font-size:16px;margin-top:6px" id="tLimite">(en caso de no confirmar dentro de la semana de recibida la invitación entenderemos que no podrás asistir)</p>
+  </div>
+
+  <form id="form" class="rev d1" autocomplete="off">
+    <label for="nombre">Nombre y apellido</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <label for="restric">Restricciones alimentarias (opcional)</label>
+    <textarea id="restric" name="restricciones" rows="2" placeholder="Celíaco, vegetariano, alergias..."></textarea>
+    <input class="hp" type="text" name="web" tabindex="-1">
+    <div style="text-align:center"><button class="btn" type="submit" id="enviar">Confirmar acá</button></div>
+    <div id="msg"></div>
+  </form>
+</section>
+
+<!-- PLAYLIST (usa el nombre de la confirmación) -->
+<section id="secSong">
+  <div class="rev">
+    <div class="disco"></div>
+    <h2>Pasá tu tema</h2>
+    <div class="cursiva">La playlist de la noche</div>
+    <p style="margin-top:12px">¿Qué canción no puede faltar? Pegá un link de Spotify o escribí canción y artista.</p>
+  </div>
+  <form id="formSong" class="rev d1" autocomplete="off">
+    <label for="tema">Canción o link de Spotify</label>
+    <input type="text" id="tema" required placeholder="Ej: Anuel AA y Ozuna - Municiones">
+    <div id="preview"></div>
+    <a class="btn2" id="btnBuscar" target="_blank" rel="noopener" hidden>🔎 Buscarla en Spotify</a>
+    <div style="text-align:center">
+      <button class="btn" type="submit" id="enviarSong">Sugerir tema</button><br>
+      <a class="btn2" id="btnPlaylist" target="_blank" rel="noopener" hidden>Agregar directo a la playlist</a>
+    </div>
+    <div id="msgSong"></div>
+  </form>
+</section>
+
+<footer>¡Te espero para festejar juntos!<br>💙💛💙</footer>
+</main>
+
+<script>
+/* ===================== CONFIGURACIÓN (EDITÁ ACÁ) ===================== */
+const CONFIG = {
+  nombre: "Mateo",
+  fechaEvento: "2026-12-19T21:30:00",  // AAAA-MM-DDTHH:MM:SS-03:00
+  fechaTexto: "19 . 12 . 26",
+  lugar: "Complejo Tierra Doradas",
+  direccion: "31.604306, -68 475833, J5421 Medano de Oro, San Juan",
+  horaTexto: "21:30 hs",
+  linkMapa: "https://maps.app.goo.gl/g2MxUkDufwatu2gj7",          // botón "Ver ubicación"
+  embedMapa: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3398.079627923598!2d-68.4754164!3d-31.6042778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x968115b08b366e01%3A0x79335430f5dae727!2sComplejo%20Tierra%20Dorada!5e0!3m2!1ses-419!2sar!4v1794933419889!5m2!1ses-419!2sar", // mapa incrustado
+  dressCode: "Elegante Sport",
+  textoLimite: "",
+  playlistUrl: "",   // (opcional) link de tu playlist colaborativa de Spotify; si está vacío, el botón no aparece
+  // URL de la aplicación web de Google Apps Script (ver instrucciones)
+  urlSheets: "https://script.google.com/macros/s/AKfycbywbXMVTa0EyjDYhzNd2K5nNkXzNQQPszCFcLhknMaahAA2KSAGn09sOQ6cxLkYPzDM/exec"
+};
+/* ===================================================================== */
+
+const $=id=>document.getElementById(id);
+$('tNombre').textContent=CONFIG.nombre;
+$('tFecha').textContent=CONFIG.fechaTexto;
+$('tLugar').textContent=CONFIG.lugar;
+$('tDireccion').textContent=CONFIG.direccion;
+$('tHora').textContent=CONFIG.horaTexto;
+$('btnMapa').href=CONFIG.linkMapa;
+$('mapa').src=CONFIG.embedMapa;
+$('tDress').textContent=CONFIG.dressCode;
+$('tLimite').textContent=CONFIG.textoLimite;
+
+/* Aparición suave al scrollear */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in')}}),{threshold:.2});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+
+/* Cuenta regresiva */
+function tick(){
+  let d=new Date(CONFIG.fechaEvento)-new Date(); if(d<0)d=0;
+  const p=n=>String(n).padStart(2,'0');
+  $('cd').textContent=p(Math.floor(d/864e5));
+  $('ch').textContent=p(Math.floor(d%864e5/36e5));
+  $('cm').textContent=p(Math.floor(d%36e5/6e4));
+  $('cs').textContent=p(Math.floor(d%6e4/1e3));
+}
+tick();setInterval(tick,1000);
+
+/* Partículas doradas y azules */
+const cv=$('particulas'),cx=cv.getContext('2d');let W,H,ps=[];
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener('resize',rs);
+for(let i=0;i<70;i++)ps.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.4,v:Math.random()*.4+.1,a:Math.random(),c:Math.random()>.25?'245,184,0':'60,110,220'});
+(function loop(){
+  cx.clearRect(0,0,W,H);
+  ps.forEach(p=>{p.y-=p.v;p.a+=(Math.random()-.5)*.08;if(p.y<0){p.y=H;p.x=Math.random()*W}
+    cx.fillStyle=`rgba(${p.c},${Math.abs(Math.sin(p.a))*.8})`;cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()});
+  requestAnimationFrame(loop);
+})();
+
+/* Confeti y destellos dorados de la portada */
+(function(){
+  const box=$('confeti'),r=(a,b)=>a+Math.random()*(b-a);
+  for(let i=0;i<60;i++){
+    const s=document.createElement('span'),pt=Math.random()>.6,z=pt?r(3,8):r(5,10);
+    s.className='cf '+(pt?'pt':'tri');
+    s.style.cssText=`left:${r(0,100)}%;top:${r(0,100)}%;width:${z}px;height:${z}px;--t:${r(1.5,4)}s;--d:${r(6,14)}s;--x:${r(-25,25)}px;--y:${r(-40,40)}px;--r:${r(-180,180)}deg;animation-delay:${r(0,3)}s`;
+    box.appendChild(s);
+  }
+})();
+
+/* Playlist: vista previa de Spotify / buscador */
+const tema=$('tema'),prev=$('preview'),bBus=$('btnBuscar');
+if(CONFIG.playlistUrl){$('btnPlaylist').href=CONFIG.playlistUrl;$('btnPlaylist').hidden=false}
+tema.addEventListener('input',()=>{
+  const v=tema.value.trim(),m=v.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|playlist|album)\/([A-Za-z0-9]+)/);
+  prev.innerHTML='';bBus.hidden=true;
+  if(m){prev.innerHTML=`<iframe src="https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0" allow="encrypted-media" loading="lazy"></iframe>`}
+  else if(v.length>2&&!/^https?:/i.test(v)){bBus.href='https://open.spotify.com/search/'+encodeURIComponent(v);bBus.hidden=false}
+});
+$('formSong').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const msg=$('msgSong'),b=$('enviarSong');
+  let nom=window.nombreInv;
+  if(!nom){try{nom=localStorage.getItem('invitado')}catch(_){}}
+  if(!nom){msg.textContent='Primero confirmá tu asistencia (más arriba) y después pasá tu tema 💙';$('form').scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(CONFIG.urlSheets.startsWith('PEGA')){msg.textContent='Falta configurar la URL de Google Sheets.';return}
+  b.disabled=true;b.textContent='Enviando...';
+  try{
+    await fetch(CONFIG.urlSheets,{method:'POST',mode:'no-cors',body:new URLSearchParams({tipo:'cancion',tema:tema.value.trim(),nombre:nom})});
+    msg.innerHTML='<span class="oro">¡Anotado! Esa suena esa noche 🎶</span>';
+    tema.value='';prev.innerHTML='';bBus.hidden=true;
+  }catch(err){msg.textContent='Hubo un error, intentá de nuevo.'}
+  b.disabled=false;b.textContent='Sugerir tema';
+});
+
+/* Envío a Google Sheets */
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=e.target,msg=$('msg'),b=$('enviar');
+  if(f.web.value) return; // anti-spam
+  if(CONFIG.urlSheets.startsWith('PEGA')){msg.textContent='Falta configurar la URL de Google Sheets.';return}
+  b.disabled=true;b.textContent='Enviando...';
+  const datos=new URLSearchParams({nombre:f.nombre.value.trim(),
+    asistencia:'Confirmado',restricciones:f.restricciones.value.trim()});
+  try{
+    await fetch(CONFIG.urlSheets,{method:'POST',mode:'no-cors',body:datos});
+    window.nombreInv=f.nombre.value.trim();
+    try{localStorage.setItem('invitado',window.nombreInv)}catch(_){}
+    msg.innerHTML='<span class="oro">¡Gracias! Tu respuesta fue registrada 💙💛<br>Ahora pasá tu tema para la playlist ⬇</span>';
+    f.reset();
+  }catch(err){msg.textContent='Hubo un error, intentá de nuevo.'}
+  b.disabled=false;b.textContent='Confirmar acá';
+});
+</script>
+</body>
+</html>
